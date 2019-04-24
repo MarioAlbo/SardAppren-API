@@ -11,8 +11,6 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN apk --purge del .build-deps
-
 COPY . .
 
 EXPOSE 8080
