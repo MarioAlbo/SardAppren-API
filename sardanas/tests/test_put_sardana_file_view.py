@@ -1,21 +1,12 @@
 import os
-import shutil
 
 from rest_framework import status
-from rest_framework.test import APITestCase
 
 from sardanas.models import Sardana
+from sardanas.tests.sardana_file_view_test import SardanaFileViewTest
 
 
-class SardanaFileUploadViewTest(APITestCase):
-
-    def setUp(self):
-        self.sardana1_path = "sardanas/tests/res/sardana1.mp3"
-        self.sardana2_path = "sardanas/tests/res/sardana2.mp3"
-        self.MEDIA_ROOT = 'test'
-
-    def tearDown(self):
-        shutil.rmtree(self.MEDIA_ROOT)
+class PutSardanaFileViewTest(SardanaFileViewTest):
 
     def test_upload_file_responses_204_no_content(self):
         sardana_id = self.create_sample_sardana()
@@ -62,16 +53,3 @@ class SardanaFileUploadViewTest(APITestCase):
         sardana = Sardana.objects.get(pk=sardana_id)
         self.assertEquals("sardana2.mp3", sardana.file.name)
         self.assertTrue(os.path.isfile(self.MEDIA_ROOT + os.sep + "sardana2.mp3"))
-
-    def create_sample_sardana(self):
-        params = {
-            "title": "Sardana 1",
-            "first_compass_position": 5.29,
-            "number_curts": 24,
-            "number_llargs": 32,
-            "beats_per_minute_curts": 5.4,
-            "beats_per_minute_llargs": 5.6
-        }
-        post_response = self.client.post("/sardanas/", params, format='json')
-        sardana_id = post_response.data['id']
-        return sardana_id

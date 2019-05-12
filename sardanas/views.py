@@ -1,3 +1,7 @@
+import os
+
+from django.conf import settings
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
@@ -18,7 +22,18 @@ class SardanaDetail(RetrieveAPIView):
     serializer_class = SardanaSerializer
 
 
-class SardanaFileUploadView(APIView):
+class SardanaFileView(APIView):
+
+    def get(self, request, pk):
+        sardana = get_object_or_404(Sardana, pk=pk)
+
+        file_path = os.path.join(settings.MEDIA_ROOT, sardana.file.name)
+        if os.path.exists(file_path):
+            with open(file_path, 'rb') as file:
+                response = HttpResponse(file.read())
+                response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
+                return response
+        raise Http404
 
     def put(self, request, pk):
         sardana = get_object_or_404(Sardana, pk=pk)
