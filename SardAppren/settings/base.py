@@ -26,7 +26,7 @@ SECRET_KEY = '7ya3qa+=&o=%zu%6$++g=n$1u%d_n3vlzwgr1a%sm2a^#3+10-'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'http://sardappren.sergiowalls.me'
+    'sardappren.sergiowalls.me'
 ]
 
 
