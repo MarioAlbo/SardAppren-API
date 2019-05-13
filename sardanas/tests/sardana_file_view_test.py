@@ -6,14 +6,14 @@ from rest_framework.test import APITestCase
 class SardanaFileViewTest(APITestCase):
 
     def setUp(self):
-        self.sardana1_path = "sardanas/tests/res/sardana1.mp3"
-        self.sardana2_path = "sardanas/tests/res/sardana2.mp3"
+        self.sardana_1_path = "sardanas/tests/res/sardana1.mp3"
+        self.sardana_2_path = "sardanas/tests/res/sardana2.mp3"
         self.MEDIA_ROOT = 'test'
 
     def tearDown(self):
         shutil.rmtree(self.MEDIA_ROOT)
 
-    def create_sample_sardana(self):
+    def _create_sample_sardana(self):
         params = {
             "title": "Sardana 1",
             "first_compass_position": 5.29,
